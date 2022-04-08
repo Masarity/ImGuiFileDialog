@@ -37,7 +37,6 @@ SOFTWARE.
 #include <ctime>
 #include <sys/stat.h>
 #include <cstdio>
-#include <filesystem>
 
 // this option need c++17
 #ifdef USE_STD_FILESYSTEM
@@ -1495,7 +1494,7 @@ namespace IGFD
 
 			ClearFileLists();
 
-/* #ifdef USE_STD_FILESYSTEM */
+#ifdef USE_STD_FILESYSTEM
 			const std::filesystem::path fspath(path);
 			const auto dir_iter = std::filesystem::directory_iterator(fspath);
 			FileType fstype = FileType(FileType::Directory, std::filesystem::is_symlink(std::filesystem::status(fspath)));
@@ -1518,8 +1517,7 @@ namespace IGFD
 					AddFile(vFileDialogInternal, path, fileNameExt, fileType);
 				}
 			}
-#if 0// dirent
-/* #else // dirent */
+#else // dirent
 			struct dirent** files = nullptr;
 			size_t n = scandir(path.c_str(), &files, nullptr, inAlphaSort);
 			if (n && files)
